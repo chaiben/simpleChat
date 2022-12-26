@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik'
 import React from 'react'
 import { FlexBox } from '../../../styles'
-import { Button, Link } from '../atoms'
+import { Button, Center, Link } from '../atoms'
 import * as Yup from 'yup'
 import { FieldWithError } from '../molecules'
 
@@ -84,8 +84,12 @@ export const SignupForm: React.FC = () => {
                 error={errors.passwordConfirmation}
                 touched={touched.passwordConfirmation}
               />
-              <Button type="submit">Register</Button>
-              <Link>I already have an account</Link>
+              <Center>
+                <Button type="submit">Register</Button>
+              </Center>
+              <Center>
+                <Link href="www.google.es">I already have an account</Link>
+              </Center>
             </FlexBox>
           </Form>
         )}
