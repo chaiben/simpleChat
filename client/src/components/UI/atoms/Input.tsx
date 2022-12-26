@@ -6,6 +6,7 @@ interface Props {
 }
 
 const Input = styled.input<Props>`
+  font-family: 'Roboto';
   border-radius: ${radius};
   padding: 0.5rem 1rem;
   border: 1px solid

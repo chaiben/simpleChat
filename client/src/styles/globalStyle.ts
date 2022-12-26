@@ -7,8 +7,19 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     font-size: 1rem;
   }
+  html {
+    height: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(360deg, rgba(78, 205, 196, 0.136394) 0%, rgba(255, 255, 255, 0.14) 100%);
+  }
   #root{
     margin: 0 auto;
+    width: 80%;
   }
 `
 
