@@ -10,6 +10,7 @@ const Response = require('../../models/Response')
 
 router.post('/register', [
   check('username', MESSAGES.USERREQUIRED).not().isEmpty(),
+  check('displayname', MESSAGES.DISPLAYNAMEREQUIRED).not().isEmpty(),
   check('password', MESSAGES.PASSWORDREQUIRED).not().isEmpty()
 ], async (req, res) => {
   const response = new Response()
