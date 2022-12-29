@@ -26,6 +26,7 @@
     ],
     "rules": {
         "prettier/prettier": "error",
-        "semi": "off"
+        "semi": "off",
+        "no-useless-catch": "off"
     }
 }

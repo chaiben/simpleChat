@@ -1,1 +1,1 @@
-export { appName } from './conf'
+export { appName, API_URL } from './conf'

@@ -4,20 +4,15 @@ import { FlexBox } from '../../../styles'
 import { Button, Center, StyledLink } from '../atoms'
 import * as Yup from 'yup'
 import { FieldWithError } from '../molecules'
-
-interface MyFormValues {
-  username: string
-  displayname: string
-  password: string
-  passwordConfirmation: string
-}
+import { RegisterForm } from '../../../interfaces/userInterface'
+import UserService from '../../../services/UserService'
 
 const SignupSchema = Yup.object().shape({
-  username: Yup.string()
+  userName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  displayname: Yup.string()
+  displayName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
@@ -34,9 +29,9 @@ const SignupSchema = Yup.object().shape({
 })
 
 export const SignupForm: React.FC = () => {
-  const initialValues: MyFormValues = {
-    username: '',
-    displayname: '',
+  const initialValues: RegisterForm = {
+    userName: '',
+    displayName: '',
     password: '',
     passwordConfirmation: ''
   }
@@ -45,9 +40,10 @@ export const SignupForm: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={SignupSchema}
-        onSubmit={(values, actions) => {
-          console.log({ values, actions })
-          alert(JSON.stringify(values, null, 2))
+        onSubmit={(user, actions) => {
+          const userService = new UserService()
+          const result = userService.post(user)
+          console.log(result)
           actions.setSubmitting(false)
         }}
       >
@@ -55,18 +51,18 @@ export const SignupForm: React.FC = () => {
           <Form className="formLayout">
             <FlexBox>
               <FieldWithError
-                id="username"
-                name="username"
+                id="userName"
+                name="userName"
                 placeholder="Username"
-                error={errors.username}
-                touched={touched.username}
+                error={errors.userName}
+                touched={touched.userName}
               />
               <FieldWithError
-                id="displayname"
-                name="displayname"
+                id="displayName"
+                name="displayName"
                 placeholder="Display Name"
-                error={errors.displayname}
-                touched={touched.displayname}
+                error={errors.displayName}
+                touched={touched.displayName}
               />
               <FieldWithError
                 id="password"

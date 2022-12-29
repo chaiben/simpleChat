@@ -9,8 +9,8 @@ const MESSAGES = require('../../helpers/helper')
 const Response = require('../../models/Response')
 
 router.post('/register', [
-  check('username', MESSAGES.USERREQUIRED).not().isEmpty(),
-  check('displayname', MESSAGES.DISPLAYNAMEREQUIRED).not().isEmpty(),
+  check('userName', MESSAGES.USERREQUIRED).not().isEmpty(),
+  check('displayName', MESSAGES.DISPLAYNAMEREQUIRED).not().isEmpty(),
   check('password', MESSAGES.PASSWORDREQUIRED).not().isEmpty()
 ], async (req, res) => {
   const response = new Response()
@@ -29,7 +29,7 @@ router.post('/register', [
     res.json(response)
   } catch (err) {
     response.setStatus(false)
-    response.setError(err.errors[0].message)
+    response.addError(err.errors[0].message)
     return res.status(409).json(response)
   }
 })
@@ -37,15 +37,15 @@ router.post('/register', [
 router.post('/login', async (req, res) => {
   const response = new Response()
   try {
-    if (!req.body.username || !req.body.password) {
+    if (!req.body.userName || !req.body.password) {
       response.setStatus(false)
       response.addError(MESSAGES.MISSINGUSERNAMEORPASS)
       return res.status(422).json(response)
     }
-    const user = await User.findOne({ where: { username: req.body.username } })
+    const user = await User.findOne({ where: { userName: req.body.userName } })
     if (user) {
-      const iguales = bcrypt.compareSync(req.body.password, user.password)
-      if (iguales) {
+      const valid = bcrypt.compareSync(req.body.password, user.password)
+      if (valid) {
         response.setPayload({ success: createToken(user) })
         res.json(response)
       } else {
@@ -74,5 +74,41 @@ const createToken = (user) => {
 
   return jwt.encode(payload, 'frase secreta')
 }
+
+router.post('/unsubscribe', async (req, res) => {
+  const response = new Response()
+  try {
+    if (!req.body.userName || !req.body.password) {
+      response.setStatus(false)
+      response.addError(MESSAGES.MISSINGUSERNAMEORPASS)
+      return res.status(422).json(response)
+    }
+    const user = await User.findOne({ where: { userName: req.body.userName } })
+    if (user) {
+      const valid = bcrypt.compareSync(req.body.password, user.password)
+      if (valid) {
+        const countResponse = User.destroy({
+          where: {
+            userId: user.userId
+          }
+        })
+        response.setPayload({ deleted: !!countResponse })
+        res.json(response)
+      } else {
+        response.setStatus(false)
+        response.addError(MESSAGES.WRONGUSERORPASS)
+        res.status(401).json(response)
+      }
+    } else {
+      response.setStatus(false)
+      response.addError(MESSAGES.WRONGUSERORPASS)
+      res.status(401).json(response)
+    }
+  } catch (err) {
+    response.setStatus(false)
+    response.setError(err)
+    res.status(422).json(response)
+  }
+})
 
 module.exports = router

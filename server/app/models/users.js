@@ -1,15 +1,15 @@
 module.exports = (sequelize, type) => {
   return sequelize.define('user', {
-    user_id: {
+    userId: {
       type: type.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    username: {
+    userName: {
       type: type.STRING,
       unique: true
     },
-    displayname: {
+    displayName: {
       type: type.STRING
     },
     password: type.STRING
