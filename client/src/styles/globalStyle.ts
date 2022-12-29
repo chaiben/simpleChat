@@ -12,14 +12,17 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* flex-direction: column; */
+    /* justify-content: center; */
     height: 100%;
     background: linear-gradient(360deg, rgba(78, 205, 196, 0.136394) 0%, rgba(255, 255, 255, 0.14) 100%);
   }
   #root{
+    align-self: center;
     margin: 0 auto;
     width: 80%;
+    max-width: 500px;
+    height: 100%;
   }
 `
 
