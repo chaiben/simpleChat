@@ -6,7 +6,7 @@ interface Props {
 }
 
 const H1 = styled.h1<Props>`
-  color: ${({ color }) => color ?? colors.dark};
+  color: ${({ color }) => color ?? colors.main};
   font-weight: 700;
   font-size: 2.25rem;
   margin-top: 0;

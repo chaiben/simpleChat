@@ -8,7 +8,7 @@ test('Render H1 component', () => {
   render(<H1>Hola mundo</H1>)
   const elemement = screen.getByText('Hola mundo')
   const style = getComputedStyle(elemement)
-  expect(rgb2hex(style.color)).toBe(colors.dark)
+  expect(rgb2hex(style.color)).toBe(colors.main)
   expect(style.fontWeight).toBe('700')
   expect(style.fontSize).toBe('2.25rem')
 })
