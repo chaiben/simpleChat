@@ -1,0 +1,859 @@
+{
+	"info": {
+		"_postman_id": "30cdc487-9c45-43e0-9888-db775f5fad78",
+		"name": "Sprint4-Entrega2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Not found page status is false\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(false);",
+							"});",
+							"pm.test(\"Not found page error is Not Found 404\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error[0]).to.eql('Not found - 404');",
+							"});",
+							"pm.test(\"Not found page payload is null\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.payload).to.eql(null);",
+							"});",
+							"pm.test(\"Not found page message is Resource not found\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Resource not found');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register an admin user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "chaiben",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/users/register/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if(jsonData.payload?.success) {",
+							"    pm.collectionVariables.set(\"token\", jsonData.payload.success);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "chaiben",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/users/login/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Anonymous Player: username is empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Check message have 'Player created'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Player created');",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Check username is 'Anonymous'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.payload.username).to.eql(\"Anonymous\");",
+							"});",
+							"pm.collectionVariables.set(\"player_id\", pm.response.json().payload.player_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/players/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"players",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Play Game",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Check player_id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(Number(jsonData.payload.player_id)).to.eql(Number(pm.collectionVariables.get(\"player_id\")));",
+							"});",
+							"pm.test(\"Check result\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.payload.result).to.eql(jsonData.payload.dice1 + jsonData.payload.dice2 === 7 ? 'Win' : 'Lose');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/games/{{player_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"games",
+						"{{player_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Play Game Error - Invalid Player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});",
+							"pm.test(\"Check status is false\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(false);",
+							"});",
+							"pm.test(\"Check error message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error[0]).to.eql('Please, add a valid player ID');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/games/0",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"games",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message have 'Player updated'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Player updated');",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"username\", \"test_\"+ new Date().getTime());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/players/{{player_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"players",
+						"{{player_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all players",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Not found page status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/players/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"players",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Played Games",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Check if message is 'All matches played'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('All matches played');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/games/{{player_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"games",
+						"{{player_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Played - No player id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/games/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"games",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ranking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Message is 'Ranking'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Ranking');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/ranking/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"ranking",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ranking Winner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Message is 'Ranking'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Winner');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/ranking/winner/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"ranking",
+						"winner",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ranking Loser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Message is 'Ranking'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Loser');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/ranking/loser/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"ranking",
+						"loser",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Matches",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message have 'Matches deleted'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Matches deleted');",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{host}}/games/{{player_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"games",
+						"{{player_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Unexisting Match",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message have 'Matches not found'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Matches not found');",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{host}}/games/0",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"games",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message have 'Player deleted'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Player deleted');",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{host}}/players/{{player_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"players",
+						"{{player_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Unexisting Player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message have 'Player deleted'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message[0]).to.eql('Player not found');",
+							"});",
+							"pm.test(\"Check status is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{host}}/players/0",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"players",
+						"0"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'user-token', value: pm.collectionVariables.get(\"token\") });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "player_id",
+			"value": "1",
+			"type": "default"
+		},
+		{
+			"key": "username",
+			"value": "test",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
