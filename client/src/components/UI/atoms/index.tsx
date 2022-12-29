@@ -1,5 +1,5 @@
 export { H1 } from './H1'
-export { Link } from './Link'
+export { StyledLink } from './StyledLink'
 export { Button } from './Button'
 export { Input } from './Input'
 export { Error } from './Error'
