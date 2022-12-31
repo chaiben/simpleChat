@@ -1,12 +1,13 @@
 const MESSAGES = {
   NOTFOUND: 'Resource not found',
   ERROR404: 'Not found - 404',
-  USERREQUIRED: 'userName is required',
+  USERREQUIRED: 'Username is required',
   PASSWORDREQUIRED: 'Password is required',
-  WRONGUSERORPASS: 'Wrong userName or password',
+  WRONGUSERORPASS: 'Wrong Username or password',
   USERREGISTERED: 'user registered',
   DISPLAYNAMEREQUIRED: 'displayName is required',
-  MISSINGUSERNAMEORPASS: 'Missing userName or password'
+  MISSINGUSERNAMEORPASS: 'Missing Username or password',
+  USERNAMECONFLICT: 'This username is already being used'
 }
 
 module.exports = MESSAGES

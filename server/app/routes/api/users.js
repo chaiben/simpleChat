@@ -29,7 +29,9 @@ router.post('/register', [
     res.json(response)
   } catch (err) {
     response.setStatus(false)
-    response.addError(err.errors[0].message)
+    let errorMsg = err.errors[0].message
+    if (errorMsg === 'userName must be unique') { errorMsg = MESSAGES.USERNAMECONFLICT }
+    response.addError(errorMsg)
     return res.status(409).json(response)
   }
 })
