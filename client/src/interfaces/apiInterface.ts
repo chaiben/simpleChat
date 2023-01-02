@@ -1,3 +1,4 @@
+import { Login } from './loginInterface'
 import { User } from './userInterface'
 
 export interface ApiResponse {
@@ -9,4 +10,8 @@ export interface ApiResponse {
 
 export interface GetUserResponse extends ApiResponse {
   payload: User
+}
+
+export interface GetLoginResponse extends ApiResponse {
+  payload: Login
 }

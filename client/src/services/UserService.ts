@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { API_URL } from '../conf'
-import { ApiResponse } from '../interfaces/apiInterface'
+import { ApiResponse, GetLoginResponse } from '../interfaces/apiInterface'
 import { User } from '../interfaces/userInterface'
 
 export default class UserService {
-  // Método para crear un nuevo usuario
-  async post(user: User): Promise<User> {
+  // Method to create a new user
+  async register(user: User): Promise<User> {
     try {
       const response = await axios.post(API_URL + 'users/register/', user)
       return response.data
@@ -14,10 +14,26 @@ export default class UserService {
     }
   }
 
-  // Método para eliminar un usuario
-  async delete(user: User): Promise<ApiResponse> {
+  // Method to delete an user
+  async delete({ userName, password }: User): Promise<ApiResponse> {
     try {
-      const response = await axios.post(API_URL + 'users/unsubscribe/', user)
+      const response = await axios.post(API_URL + 'users/unsubscribe/', {
+        userName,
+        password
+      })
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  // Method to login
+  async login({ userName, password }: User): Promise<GetLoginResponse> {
+    try {
+      const response = await axios.post(API_URL + 'users/login/', {
+        userName,
+        password
+      })
       return response.data
     } catch (error) {
       throw error

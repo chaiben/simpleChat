@@ -2,13 +2,13 @@ import { FormikHelpers } from 'formik'
 import { RegisterForm } from '../interfaces/userInterface'
 import UserService from '../services/UserService'
 
-export const onSubmitSignup = async (
+export const onSubmitSignin = async (
   user: RegisterForm,
   actions: FormikHelpers<RegisterForm>
 ): Promise<any> => {
   const userService = new UserService()
   try {
-    const result = await userService.register(user)
+    const result = await userService.login(user)
     console.log('result', result)
   } catch (error) {
     if (error.response !== undefined) {

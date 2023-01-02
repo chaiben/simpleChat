@@ -7,7 +7,6 @@ import { FieldWithError } from '../molecules'
 import { RegisterForm } from '../../../interfaces/userInterface'
 import { onSubmitSignup } from '../../../handlers'
 import { signupSchema } from '../../../schemas'
-import { Persist } from 'formik-persist'
 
 export const SignupForm: React.FC = () => {
   const initialValues: RegisterForm = {
@@ -70,7 +69,6 @@ export const SignupForm: React.FC = () => {
                 <StyledLink to="/">I already have an account</StyledLink>
               </Center>
             </FlexBox>
-            <Persist name="signup-form" />
           </Form>
         )}
       </Formik>

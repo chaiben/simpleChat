@@ -1,19 +1,15 @@
 import { Form, Formik } from 'formik'
 import React from 'react'
 import { FlexBox } from '../../../styles'
-import { Button, Center, StyledLink } from '../atoms'
+import { Button, Center, StyledLink, Error } from '../atoms'
 import { FieldWithError } from '../molecules'
 import { signinSchema } from '../../../schemas'
-import { Persist } from 'formik-persist'
-
-interface MyFormValues {
-  username: string
-  password: string
-}
+import { RegisterForm } from '../../../interfaces/userInterface'
+import { onSubmitSignin } from '../../../handlers'
 
 export const SigninForm: React.FC = () => {
-  const initialValues: MyFormValues = {
-    username: '',
+  const initialValues: RegisterForm = {
+    userName: '',
     password: ''
   }
   return (
@@ -21,21 +17,17 @@ export const SigninForm: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={signinSchema}
-        onSubmit={(values, actions) => {
-          console.log({ values, actions })
-          alert(JSON.stringify(values, null, 2))
-          actions.setSubmitting(false)
-        }}
+        onSubmit={async (user, actions) => await onSubmitSignin(user, actions)}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, isSubmitting }) => (
           <Form className="formLayout">
             <FlexBox>
               <FieldWithError
-                id="username"
-                name="username"
+                id="userName"
+                name="userName"
                 placeholder="Username"
-                error={errors.username}
-                touched={touched.username}
+                error={errors.userName}
+                touched={touched.userName}
               />
               <FieldWithError
                 id="password"
@@ -45,14 +37,20 @@ export const SigninForm: React.FC = () => {
                 error={errors.password}
                 touched={touched.password}
               />
+              {errors.formError !== null ? (
+                <Center>
+                  <Error>{errors.formError}</Error>
+                </Center>
+              ) : null}
               <Center>
-                <Button type="submit">Sign in</Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  Sign in
+                </Button>
               </Center>
               <Center>
                 <StyledLink to="./signup">I do not have an account</StyledLink>
               </Center>
             </FlexBox>
-            <Persist name="signin-form" />
           </Form>
         )}
       </Formik>
