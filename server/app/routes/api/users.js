@@ -48,7 +48,7 @@ router.post('/login', async (req, res) => {
     if (user) {
       const valid = bcrypt.compareSync(req.body.password, user.password)
       if (valid) {
-        response.setPayload({ success: createToken(user) })
+        response.setPayload({ token: createToken(user) })
         res.json(response)
       } else {
         response.setStatus(false)
@@ -71,7 +71,7 @@ const createToken = (user) => {
   const payload = {
     usuarioId: user.id,
     createdAt: moment().unix(),
-    expiredAt: moment().add(5, 'minutes').unix()
+    expiredAt: moment().add(24, 'hours').unix()
   }
 
   return jwt.encode(payload, 'frase secreta')
