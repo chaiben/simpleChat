@@ -7,6 +7,7 @@ const moment = require('moment')
 const jwt = require('jwt-simple')
 const MESSAGES = require('../../helpers/helper')
 const Response = require('../../models/Response')
+require('dotenv').config()
 
 router.post('/register', [
   check('userName', MESSAGES.USERREQUIRED).not().isEmpty(),
@@ -69,14 +70,34 @@ router.post('/login', async (req, res) => {
 
 const createToken = (user) => {
   const payload = {
-    usuarioId: user.id,
+    userId: user.userId,
+    userName: user.userName,
+    displayName: user.displayName,
     createdAt: moment().unix(),
     expiredAt: moment().add(24, 'hours').unix()
   }
-
-  return jwt.encode(payload, 'frase secreta')
+  console.log(payload)
+  return jwt.encode(payload, process.env.JWT_SECRET_KEY)
 }
 
+router.post('/tokeninfo', async (req, res) => {
+  const response = new Response()
+  if (!req.body.token) {
+    response.setStatus(false)
+    response.addError(MESSAGES.MISSINGTOKEN)
+    return res.status(422).json(response)
+  } else {
+    try {
+      const payload = jwt.decode(req.body.token, process.env.JWT_SECRET_KEY)
+      response.setPayload(payload)
+      res.json(response)
+    } catch (err) {
+      response.setStatus(false)
+      response.addError(MESSAGES.INVAIDTOKEN)
+      return res.status(401).json(response)
+    }
+  }
+})
 router.post('/unsubscribe', async (req, res) => {
   const response = new Response()
   try {

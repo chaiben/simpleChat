@@ -7,7 +7,11 @@ const MESSAGES = {
   USERREGISTERED: 'user registered',
   DISPLAYNAMEREQUIRED: 'displayName is required',
   MISSINGUSERNAMEORPASS: 'Missing Username or password',
-  USERNAMECONFLICT: 'This username is already being used'
+  USERNAMECONFLICT: 'This username is already being used',
+  MISSINGTOKEN: 'Missing token',
+  INVAIDTOKEN: 'Invalid token',
+  MISSINGTOKENHEADER: 'Missing token header',
+  TOKENEXPIRED: 'Token expired'
 }
 
 module.exports = MESSAGES
