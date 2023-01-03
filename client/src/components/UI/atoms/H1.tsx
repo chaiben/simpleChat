@@ -3,6 +3,7 @@ import { colors } from '../../../styles'
 
 interface Props {
   color?: string
+  mb?: string
 }
 
 const H1 = styled.h1<Props>`
@@ -10,7 +11,7 @@ const H1 = styled.h1<Props>`
   font-weight: 700;
   font-size: 2.25rem;
   margin-top: 0;
-  margin-bottom: 4rem;
+  margin-bottom: ${({ mb }) => mb ?? '4rem'};
 `
 
 export { H1 }

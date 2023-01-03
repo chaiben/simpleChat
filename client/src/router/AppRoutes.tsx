@@ -22,7 +22,11 @@ export const AppRoutes = (): JSX.Element => {
             element={<SignupForm setLoggedUser={setLoggedUser} />}
           />
         </Route>
-        <Route element={<MainLayout />}>
+        <Route
+          element={
+            <MainLayout loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
+          }
+        >
           <Route
             path="main"
             element={
