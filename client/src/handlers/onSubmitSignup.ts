@@ -1,15 +1,24 @@
 import { FormikHelpers } from 'formik'
-import { RegisterForm } from '../interfaces/userInterface'
+import { RegisterForm, User } from '../interfaces/userInterface'
 import UserService from '../services/UserService'
 
 export const onSubmitSignup = async (
   user: RegisterForm,
-  actions: FormikHelpers<RegisterForm>
+  actions: FormikHelpers<RegisterForm>,
+  setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>
 ): Promise<any> => {
   const userService = new UserService()
   try {
-    const result = await userService.register(user)
-    console.log('result', result)
+    // Register user
+    await userService.register(user)
+
+    // Login in
+    const result = await userService.login(user)
+    localStorage.setItem('token', result.payload.token)
+    setLoggedUser({
+      userName: user.userName,
+      displayName: user.displayName
+    })
   } catch (error) {
     if (error.response !== undefined) {
       // handle error response from the API

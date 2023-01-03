@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { API_URL } from '../conf'
-import { ApiResponse, GetLoginResponse } from '../interfaces/apiInterface'
+import {
+  ApiResponse,
+  GetLoginResponse,
+  GetUserResponse
+} from '../interfaces/apiInterface'
 import { User } from '../interfaces/userInterface'
 
 export default class UserService {
@@ -33,6 +37,18 @@ export default class UserService {
       const response = await axios.post(API_URL + 'users/login/', {
         userName,
         password
+      })
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  // Method to get user by token
+  async getInfo(token: string): Promise<GetUserResponse> {
+    try {
+      const response = await axios.post(API_URL + 'users/tokeninfo/', {
+        token
       })
       return response.data
     } catch (error) {
