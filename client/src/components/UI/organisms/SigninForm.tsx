@@ -4,14 +4,12 @@ import { FlexBox } from '../../../styles'
 import { Button, Center, StyledLink, Error } from '../atoms'
 import { FieldWithError } from '../molecules'
 import { signinSchema } from '../../../schemas'
-import { User, RegisterForm } from '../../../interfaces/userInterface'
+import { RegisterForm, SignFormProps } from '../../../interfaces/userInterface'
 import { onSubmitSignin } from '../../../handlers'
 
-interface Props {
-  setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>
-}
-
-export const SigninForm = ({ setLoggedUser }: Props): React.ReactElement => {
+export const SigninForm = ({
+  setLoggedUser
+}: SignFormProps): React.ReactElement => {
   const initialValues: RegisterForm = {
     userName: '',
     password: ''

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
+import { Signin } from '../components/pages/Signin'
+import { Signup } from '../components/pages/Signup'
 import { IntroLayout, MainLayout } from '../components/templates'
-import { SigninForm, SignupForm } from '../components/UI/organisms'
 import useToken from '../hooks/useToken'
 import { User } from '../interfaces/userInterface'
 import ProtectedRouter from './ProtectedRouter'
@@ -16,10 +17,10 @@ export const AppRoutes = (): JSX.Element => {
     <HashRouter>
       <Routes>
         <Route element={<IntroLayout auth={isAutheticated} />}>
-          <Route index element={<SigninForm setLoggedUser={setLoggedUser} />} />
+          <Route index element={<Signin setLoggedUser={setLoggedUser} />} />
           <Route
             path="signup"
-            element={<SignupForm setLoggedUser={setLoggedUser} />}
+            element={<Signup setLoggedUser={setLoggedUser} />}
           />
         </Route>
         <Route

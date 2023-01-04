@@ -8,11 +8,13 @@ import { RegisterForm, User } from '../../../interfaces/userInterface'
 import { onSubmitSignup } from '../../../handlers'
 import { signupSchema } from '../../../schemas'
 
-interface Props {
+interface SignupFormProps {
   setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>
 }
 
-export const SignupForm = ({ setLoggedUser }: Props): React.ReactElement => {
+export const SignupForm = ({
+  setLoggedUser
+}: SignupFormProps): React.ReactElement => {
   const initialValues: RegisterForm = {
     userName: '',
     displayName: '',
