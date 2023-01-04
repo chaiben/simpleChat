@@ -1,12 +1,11 @@
-import { FormikHelpers } from 'formik'
-import { RegisterForm, User } from '../interfaces/userInterface'
+import { onSubmitUserHandlerInterface } from '../interfaces/userInterface'
 import UserService from '../services/UserService'
 
-export const onSubmitSignup = async (
-  user: RegisterForm,
-  actions: FormikHelpers<RegisterForm>,
-  setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>
-): Promise<any> => {
+export const onSubmitSignup = async ({
+  user,
+  actions,
+  setLoggedUser
+}: onSubmitUserHandlerInterface): Promise<void> => {
   const userService = new UserService()
   try {
     // Register user

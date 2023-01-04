@@ -1,20 +1,15 @@
 import { Form, Formik } from 'formik'
 import React from 'react'
-import { FlexBox } from '../../../styles'
-import { Button, Center, StyledLink, Error } from '../atoms'
+import { Button, Center, StyledLink, Error, FlexBox } from '../atoms'
 
 import { FieldWithError } from '../molecules'
-import { RegisterForm, User } from '../../../interfaces/userInterface'
+import { RegisterForm, SignFormProps } from '../../../interfaces/userInterface'
 import { onSubmitSignup } from '../../../handlers'
 import { signupSchema } from '../../../schemas'
 
-interface SignupFormProps {
-  setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>
-}
-
 export const SignupForm = ({
   setLoggedUser
-}: SignupFormProps): React.ReactElement => {
+}: SignFormProps): React.ReactElement => {
   const initialValues: RegisterForm = {
     userName: '',
     displayName: '',
@@ -27,7 +22,7 @@ export const SignupForm = ({
         initialValues={initialValues}
         validationSchema={signupSchema}
         onSubmit={async (user, actions) =>
-          await onSubmitSignup(user, actions, setLoggedUser)
+          await onSubmitSignup({ user, actions, setLoggedUser })
         }
       >
         {({ errors, touched, isSubmitting }) => (

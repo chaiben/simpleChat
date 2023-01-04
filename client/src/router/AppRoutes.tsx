@@ -11,6 +11,7 @@ import ProtectedRouter from './ProtectedRouter'
 export const AppRoutes = (): JSX.Element => {
   const [loggedUser, setLoggedUser] = useState<User | null>(null)
 
+  // Get all info from a valid token
   useToken(setLoggedUser)
   const isAutheticated = loggedUser != null
 

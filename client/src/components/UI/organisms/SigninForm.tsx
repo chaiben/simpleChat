@@ -1,7 +1,6 @@
 import { Form, Formik } from 'formik'
 import React from 'react'
-import { FlexBox } from '../../../styles'
-import { Button, Center, StyledLink, Error } from '../atoms'
+import { Button, Center, StyledLink, Error, FlexBox } from '../atoms'
 import { FieldWithError } from '../molecules'
 import { signinSchema } from '../../../schemas'
 import { RegisterForm, SignFormProps } from '../../../interfaces/userInterface'
@@ -20,7 +19,7 @@ export const SigninForm = ({
         initialValues={initialValues}
         validationSchema={signinSchema}
         onSubmit={async (user, actions) =>
-          await onSubmitSignin(user, actions, setLoggedUser)
+          await onSubmitSignin({ user, actions, setLoggedUser })
         }
       >
         {({ errors, touched, isSubmitting }) => (

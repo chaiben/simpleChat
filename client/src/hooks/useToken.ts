@@ -8,8 +8,7 @@ const useToken = (
   const [token, setToken] = useState(localStorage.getItem('token'))
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    async function fetchData() {
+    async function fetchData(): Promise<void> {
       if (token !== null) {
         try {
           const userService = new UserService()

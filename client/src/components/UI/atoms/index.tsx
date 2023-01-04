@@ -1,4 +1,5 @@
 export { H1 } from './H1'
+export { FlexBox } from './FlexBox'
 export { StyledLink } from './StyledLink'
 export { Button } from './Button'
 export { Input } from './Input'

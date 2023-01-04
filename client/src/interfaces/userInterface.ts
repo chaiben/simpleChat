@@ -1,3 +1,5 @@
+import { FormikHelpers } from 'formik'
+
 export interface User {
   userId?: number
   userName?: string
@@ -13,5 +15,11 @@ export interface RegisterForm extends User {
 }
 
 export interface SignFormProps {
+  setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>
+}
+
+export interface onSubmitUserHandlerInterface {
+  user: RegisterForm
+  actions: FormikHelpers<RegisterForm>
   setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>
 }

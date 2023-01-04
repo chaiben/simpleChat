@@ -9,6 +9,7 @@ const Input = styled.input<Props>`
   font-family: 'Roboto';
   border-radius: ${radius};
   padding: 0.5rem 1rem;
+  flex-grow: 1;
   border: 1px solid
     ${({ error }) =>
       error === 'true' || error === '1' ? colors.error : colors.dark};

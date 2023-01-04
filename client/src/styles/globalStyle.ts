@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
   #root{
     align-self: center;
     margin: 0 auto;
-    width: 80%;
+    width: 100%;
     max-width: 500px;
     height: 100%;
   }
