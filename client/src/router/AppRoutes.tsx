@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
+import { Main } from '../components/pages/Main'
 import { Signin } from '../components/pages/Signin'
 import { Signup } from '../components/pages/Signup'
 import { IntroLayout, MainLayout } from '../components/templates'
@@ -25,14 +26,14 @@ export const AppRoutes = (): JSX.Element => {
         </Route>
         <Route
           element={
-            <MainLayout loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
+            <MainLayout user={loggedUser} setLoggedUser={setLoggedUser} />
           }
         >
           <Route
             path="main"
             element={
               <ProtectedRouter auth={isAutheticated}>
-                <div>hola mundo</div>
+                <Main user={loggedUser} />
               </ProtectedRouter>
             }
           />
