@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field } from 'formik'
-import { Input, Error } from '../atoms'
+import { Input, Error, FlexBox } from '../atoms'
 
 interface Props {
   id: string
@@ -20,7 +20,7 @@ export const FieldWithError: React.FC<Props> = ({
   touched
 }) => {
   return (
-    <>
+    <FlexBox>
       <Field
         as={Input}
         id={id}
@@ -30,6 +30,6 @@ export const FieldWithError: React.FC<Props> = ({
         error={error != null && (touched ?? false) ? 'true' : null}
       />
       {error != null && (touched ?? false) ? <Error>{error}</Error> : null}
-    </>
+    </FlexBox>
   )
 }

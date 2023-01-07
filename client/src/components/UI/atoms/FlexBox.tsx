@@ -7,6 +7,7 @@ interface Props {
 const FlexBox = styled.div<Props>`
   display: flex;
   gap: 0.5rem;
+  width: 100%;
   flex-direction: ${({ direction }) => direction ?? 'column'};
 `
 

@@ -16,6 +16,7 @@ const Button = styled.button.attrs((props: ButtonProps) => ({
   border-radius: ${radius};
   cursor: ${(props) => props.cursor};
   padding: 0.5rem 2rem;
+  height: 38px;
 `
 
 export { Button }

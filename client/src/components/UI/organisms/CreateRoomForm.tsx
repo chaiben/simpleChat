@@ -2,7 +2,7 @@ import { Form, Formik } from 'formik'
 import React from 'react'
 import { Button, Center, Error, FlexBox } from '../atoms'
 import { FieldWithError } from '../molecules'
-import { signinSchema } from '../../../schemas'
+import { createRoomSchema } from '../../../schemas'
 import { onSubmitCreateRoom } from '../../../handlers'
 import { CreateRoomFormInterface } from '../../../interfaces/roomInterface'
 
@@ -14,7 +14,8 @@ export const CreateRoomForm = (): React.ReactElement => {
     <div>
       <Formik
         initialValues={initialValues}
-        validationSchema={signinSchema}
+        validationSchema={createRoomSchema}
+        validateOnBlur={false}
         onSubmit={(room, actions) => onSubmitCreateRoom({ room, actions })}
       >
         {({ errors, touched, isSubmitting }) => (

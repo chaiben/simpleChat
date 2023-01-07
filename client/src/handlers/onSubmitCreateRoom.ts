@@ -6,4 +6,5 @@ export const onSubmitCreateRoom = ({
 }: onSubmitCreateRoomHandlerInterface): void => {
   console.log('Called onSubmitCreateRoom roomForm', room)
   console.log('Called onSubmitCreateRoom actions', actions)
+  actions.setSubmitting(false)
 }
