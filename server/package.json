@@ -21,12 +21,20 @@
     "jwt-simple": "^0.5.6",
     "moment": "^2.29.4",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.26.0"
+    "sequelize": "^6.26.0",
+    "socket.io": "^4.5.4",
+    "uuid": "^9.0.0"
   },
   "eslintConfig": {
     "extends": "./node_modules/standard/eslintrc.json"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.0",
+    "eslint": "^8.31.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-promise": "^6.1.1",
     "jest": "^28.1.1",
     "nodemon": "^2.0.7",
     "standard": "^17.0.0"
