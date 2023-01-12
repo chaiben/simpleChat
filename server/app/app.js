@@ -24,4 +24,4 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/', apiRouter)
 
-app.listen(3000)
+httpServer.listen(3000, () => console.log('Server is running'))

@@ -4,6 +4,7 @@ import { Main } from '../components/pages/Main'
 import { Signin } from '../components/pages/Signin'
 import { Signup } from '../components/pages/Signup'
 import { IntroLayout, MainLayout } from '../components/templates'
+import SocketContextComponent from '../context/SocketContextComponent'
 import useToken from '../hooks/useToken'
 import { User } from '../interfaces/userInterface'
 import ProtectedRouter from './ProtectedRouter'
@@ -34,7 +35,9 @@ export const AppRoutes = (): JSX.Element => {
             path="main"
             element={
               <ProtectedRouter auth={isAutheticated}>
-                <Main user={loggedUser} />
+                <SocketContextComponent>
+                  <Main user={loggedUser} />
+                </SocketContextComponent>
               </ProtectedRouter>
             }
           />
