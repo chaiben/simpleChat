@@ -5,19 +5,20 @@ import React, {
   useState
 } from 'react'
 import { useSocket } from '../hooks/useSocket'
+import { User } from '../interfaces/userInterface'
 import {
   defaultSocketContextState,
   SocketContextProvider,
   SocketReducer
 } from './SocketContext'
 
-export interface ISocketContextComponentProps extends PropsWithChildren {}
+export interface ISocketContextComponentProps extends PropsWithChildren {
+  loggedUser: User | null
+}
 
 const SocketContextComponent: React.FunctionComponent<
   ISocketContextComponentProps
-> = (props) => {
-  const { children } = props
-
+> = ({ children, loggedUser }) => {
   const socket = useSocket('ws://localhost:3000', {
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
@@ -68,13 +69,17 @@ const SocketContextComponent: React.FunctionComponent<
   const SendHandshake = async (): Promise<void> => {
     console.info('Sending handshake to server ...')
 
-    socket.emit('handshake', async (uid: string, users: string[]) => {
-      console.info('User handshake callback message received')
-      SocketDispatch({ type: 'update_uid', payload: uid })
-      SocketDispatch({ type: 'update_users', payload: users })
+    socket.emit(
+      'handshake',
+      loggedUser,
+      async (uid: string, users: string[]) => {
+        console.info('User handshake callback message received')
+        SocketDispatch({ type: 'update_uid', payload: uid })
+        SocketDispatch({ type: 'update_users', payload: users })
 
-      setLoading(false)
-    })
+        setLoading(false)
+      }
+    )
   }
 
   useEffect(() => {

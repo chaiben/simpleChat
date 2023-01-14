@@ -14,10 +14,7 @@ export const onSubmitSignup = async ({
     // Login in
     const result = await userService.login(user)
     localStorage.setItem('token', result.payload.token)
-    setLoggedUser({
-      userName: user.userName,
-      displayName: user.displayName
-    })
+    setLoggedUser(result.payload.user)
   } catch (error) {
     if (error.response !== undefined) {
       // handle error response from the API

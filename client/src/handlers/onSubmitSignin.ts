@@ -15,10 +15,7 @@ export const onSubmitSignin = async ({
     } else {
       // Login success
       localStorage.setItem('token', result.payload.token)
-      setLoggedUser({
-        userName: user.userName,
-        displayName: user.displayName
-      })
+      setLoggedUser(result.payload.user)
     }
   } catch (error) {
     if (error.response !== undefined) {

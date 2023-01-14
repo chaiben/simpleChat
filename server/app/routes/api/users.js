@@ -9,37 +9,44 @@ const MESSAGES = require('../../helpers/helper')
 const Response = require('../../models/Response')
 require('dotenv').config()
 
-router.post('/register', [
-  check('userName', MESSAGES.USERREQUIRED).not().isEmpty(),
-  check('displayName', MESSAGES.DISPLAYNAMEREQUIRED).not().isEmpty(),
-  check('password', MESSAGES.PASSWORDREQUIRED).not().isEmpty()
-], async (req, res) => {
-  const response = new Response()
-  const errors = validationResult(req)
+router.post(
+  '/register',
+  [
+    check('userName', MESSAGES.USERREQUIRED).not().isEmpty(),
+    check('displayName', MESSAGES.DISPLAYNAMEREQUIRED).not().isEmpty(),
+    check('password', MESSAGES.PASSWORDREQUIRED).not().isEmpty()
+  ],
+  async (req, res) => {
+    const response = new Response()
+    const errors = validationResult(req)
 
-  if (!errors.isEmpty()) {
-    response.setStatus(false)
-    response.setError(errors.array())
-    return res.status(422).json(response)
+    if (!errors.isEmpty()) {
+      response.setStatus(false)
+      response.setError(errors.array())
+      return res.status(422).json(response)
+    }
+    try {
+      req.body.password = bcrypt.hashSync(req.body.password, 10)
+      const user = await User.create(req.body)
+      response.addMessage(MESSAGES.USERREGISTERED)
+      response.setPayload(user)
+      res.json(response)
+    } catch (err) {
+      response.setStatus(false)
+      let errorMsg = err.errors[0].message
+      if (errorMsg === 'userName must be unique') {
+        errorMsg = MESSAGES.USERNAMECONFLICT
+      }
+      response.addError(errorMsg)
+      return res.status(409).json(response)
+    }
   }
-  try {
-    req.body.password = bcrypt.hashSync(req.body.password, 10)
-    const user = await User.create(req.body)
-    response.addMessage(MESSAGES.USERREGISTERED)
-    response.setPayload(user)
-    res.json(response)
-  } catch (err) {
-    response.setStatus(false)
-    let errorMsg = err.errors[0].message
-    if (errorMsg === 'userName must be unique') { errorMsg = MESSAGES.USERNAMECONFLICT }
-    response.addError(errorMsg)
-    return res.status(409).json(response)
-  }
-})
+)
 
 router.post('/login', async (req, res) => {
   const response = new Response()
   try {
+    // Missing post information
     if (!req.body.userName || !req.body.password) {
       response.setStatus(false)
       response.addError(MESSAGES.MISSINGUSERNAMEORPASS)
@@ -47,21 +54,29 @@ router.post('/login', async (req, res) => {
     }
     const user = await User.findOne({ where: { userName: req.body.userName } })
     if (user) {
+      // User found
       const valid = bcrypt.compareSync(req.body.password, user.password)
       if (valid) {
-        response.setPayload({ token: createToken(user) })
+        // Valid password for this user
+        response.setPayload({
+          token: createToken(user),
+          user
+        })
         res.json(response)
       } else {
+        // Wrong password for this user
         response.setStatus(false)
         response.addError(MESSAGES.WRONGUSERORPASS)
         res.json(response)
       }
     } else {
+      // User not found
       response.setStatus(false)
       response.addError(MESSAGES.WRONGUSERORPASS)
       res.json(response)
     }
   } catch (err) {
+    // Other errors
     response.setStatus(false)
     response.setError(err)
     res.status(422).json(response)

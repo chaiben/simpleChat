@@ -1,5 +1,4 @@
 const { Server } = require('socket.io')
-const { v4 } = require('uuid')
 
 module.exports = class ServerSocket {
   constructor(server) {
@@ -23,7 +22,7 @@ module.exports = class ServerSocket {
   StartListeners = (socket) => {
     console.info('Message recieved from ' + socket.id)
 
-    socket.on('handshake', (callback) => {
+    socket.on('handshake', (loggedUser, callback) => {
       console.info('Handshake recieved from ' + socket.id)
 
       // Check if this is a reconnection
@@ -41,8 +40,8 @@ module.exports = class ServerSocket {
         }
       }
 
-      // Generate new user
-      const uid = v4()
+      // Register logged user
+      const uid = loggedUser.userId + '::' + loggedUser.displayName
       this.users[uid] = socket.id
       const users = Object.values(this.users)
       console.info('Sending callback for handshake ...')

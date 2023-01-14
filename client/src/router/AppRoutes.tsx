@@ -35,7 +35,7 @@ export const AppRoutes = (): JSX.Element => {
             path="main"
             element={
               <ProtectedRouter auth={isAutheticated}>
-                <SocketContextComponent>
+                <SocketContextComponent loggedUser={loggedUser}>
                   <Main user={loggedUser} />
                 </SocketContextComponent>
               </ProtectedRouter>

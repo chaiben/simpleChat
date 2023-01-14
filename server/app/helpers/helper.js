@@ -1,17 +1,19 @@
 const MESSAGES = {
-  NOTFOUND: 'Resource not found',
-  ERROR404: 'Not found - 404',
-  USERREQUIRED: 'Username is required',
-  PASSWORDREQUIRED: 'Password is required',
-  WRONGUSERORPASS: 'Wrong Username or password',
-  USERREGISTERED: 'user registered',
   DISPLAYNAMEREQUIRED: 'displayName is required',
-  MISSINGUSERNAMEORPASS: 'Missing Username or password',
-  USERNAMECONFLICT: 'This username is already being used',
-  MISSINGTOKEN: 'Missing token',
+  ERROR404: 'Not found - 404',
   INVAIDTOKEN: 'Invalid token',
+  MISSINGTOKEN: 'Missing token',
   MISSINGTOKENHEADER: 'Missing token header',
-  TOKENEXPIRED: 'Token expired'
+  MISSINGUSERNAMEORPASS: 'Missing Username or password',
+  NOTFOUND: 'Resource not found',
+  PASSWORDREQUIRED: 'Password is required',
+  ROOMNAMEREQUIRED: 'roomName is required',
+  TOKENEXPIRED: 'Token expired',
+  USERNAMECONFLICT: 'This username is already being used',
+  USERREGISTERED: 'User registered',
+  ROOMREGISTERED: 'Room registered',
+  USERREQUIRED: 'Username is required',
+  WRONGUSERORPASS: 'Wrong Username or password'
 }
 
 module.exports = MESSAGES
