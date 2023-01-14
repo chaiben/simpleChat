@@ -41,7 +41,11 @@ module.exports = class ServerSocket {
       }
 
       // Register logged user
-      const uid = loggedUser.userId + '::' + loggedUser.displayName
+      const uid = JSON.stringify({
+        userId: loggedUser.userId,
+        userName: loggedUser.userName,
+        displayName: loggedUser.displayName
+      })
       this.users[uid] = socket.id
       const users = Object.values(this.users)
       console.info('Sending callback for handshake ...')
