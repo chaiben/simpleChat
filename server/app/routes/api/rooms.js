@@ -9,6 +9,20 @@ require('dotenv').config()
 
 module.exports = router
 
+router.get('/', async (req, res) => {
+  const response = new Response()
+  try {
+    const rooms = await Room.findAll()
+
+    response.setPayload(rooms)
+    res.status(200).json(response)
+  } catch (err) {
+    response.setStatus(false)
+    response.addError(err.message)
+    res.status(400).json(response)
+  }
+})
+
 router.post(
   '/create',
   [check('roomName', MESSAGES.ROOMNAMEREQUIRED).not().isEmpty()],
