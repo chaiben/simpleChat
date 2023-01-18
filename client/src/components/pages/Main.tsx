@@ -1,18 +1,41 @@
-import React, { useContext } from 'react'
-import { User } from '../../interfaces/userInterface'
-import { CreateRoomForm } from '../UI/organisms/CreateRoomForm'
+import React, { useContext, useEffect, useState } from 'react'
 import SocketContext from '../../context/SocketContext'
+import { RoomService } from '../../services'
+import { Room } from '../../interfaces/roomInterface'
+import { colors } from '../../styles'
+import { Card } from '../UI/atoms/'
+import { RoomCard } from '../UI/molecules/'
+import { CreateRoomForm } from '../UI/organisms/'
 
-interface MainProps {
-  user: User | null
-}
+export const Main = (): React.ReactElement => {
+  // Get token
+  const token = localStorage.getItem('token')
 
-export const Main = ({ user }: MainProps): React.ReactElement => {
+  // Socket info
   const { socket, uid, users } = useContext(SocketContext).SocketState
+
+  // Rooms
+  const [rooms, setRooms] = useState<Room[] | null>(null)
+
+  // Loading Rooms
+  useEffect(() => {
+    const roomService = new RoomService(token)
+    async function fetchData(): Promise<void> {
+      setRooms(await roomService.getAll())
+    }
+    void fetchData()
+  }, [token])
+
   return (
     <>
       <CreateRoomForm />
-      <div>
+      {rooms === null && <div>Loading...</div>}
+      {rooms?.length == null && <div>Create a room to continue.</div>}
+      {rooms?.length != null &&
+        rooms.map((room) => (
+          <RoomCard key={`room_${room.roomName}`} {...room}></RoomCard>
+        ))}
+      <Card color={colors.error}>
         <h2>Socket io information</h2>
         <p>
           Your user ID: <strong>{uid}</strong>
@@ -21,7 +44,7 @@ export const Main = ({ user }: MainProps): React.ReactElement => {
           <br />
           Socket ID: <strong>{socket?.id}</strong>
         </p>
-      </div>
+      </Card>
     </>
   )
 }

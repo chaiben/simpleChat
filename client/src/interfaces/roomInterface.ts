@@ -1,7 +1,10 @@
 import { FormikHelpers } from 'formik'
 
 export interface Room {
+  roomId?: number
   roomName: string
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export interface CreateRoomFormInterface extends Room {

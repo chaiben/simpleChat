@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
-import { Main } from '../components/pages/Main'
-import { Signin } from '../components/pages/Signin'
-import { Signup } from '../components/pages/Signup'
+import { Main, Room, Signin, Signup } from '../components/pages'
 import { IntroLayout, MainLayout } from '../components/templates'
 import SocketContextComponent from '../context/SocketContextComponent'
-import useToken from '../hooks/useToken'
 import { User } from '../interfaces/userInterface'
 import ProtectedRouter from './ProtectedRouter'
 
@@ -13,7 +10,6 @@ export const AppRoutes = (): JSX.Element => {
   const [loggedUser, setLoggedUser] = useState<User | null>(null)
 
   // Get all info from a valid token
-  useToken(setLoggedUser)
   const isAutheticated = loggedUser != null
 
   return (
@@ -28,19 +24,15 @@ export const AppRoutes = (): JSX.Element => {
         </Route>
         <Route
           element={
-            <MainLayout user={loggedUser} setLoggedUser={setLoggedUser} />
+            <ProtectedRouter auth={isAutheticated}>
+              <SocketContextComponent loggedUser={loggedUser}>
+                <MainLayout user={loggedUser} setLoggedUser={setLoggedUser} />
+              </SocketContextComponent>
+            </ProtectedRouter>
           }
         >
-          <Route
-            path="main"
-            element={
-              <ProtectedRouter auth={isAutheticated}>
-                <SocketContextComponent loggedUser={loggedUser}>
-                  <Main user={loggedUser} />
-                </SocketContextComponent>
-              </ProtectedRouter>
-            }
-          />
+          <Route path="main" element={<Main />} />
+          <Route path="main/:room" element={<Room />} />
         </Route>
       </Routes>
     </HashRouter>
