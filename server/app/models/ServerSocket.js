@@ -3,6 +3,7 @@ const { Server } = require('socket.io')
 module.exports = class ServerSocket {
   constructor(server) {
     ServerSocket.instance = this
+
     this.users = {}
     this.io = new Server(server, {
       serveClient: false,

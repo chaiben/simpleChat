@@ -4,8 +4,8 @@ import APIService from './APIService'
 
 export default class RoomService extends APIService {
   // Method to create a new room
-  async create(room: Room): Promise<ApiResponse | string> {
-    return await this.post('rooms/register/', room)
+  async create(room: Room): Promise<ApiResponse> {
+    return await this.post('rooms/create/', room)
   }
 
   // Method to receive all created rooms

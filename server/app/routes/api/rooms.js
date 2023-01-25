@@ -36,10 +36,14 @@ router.post(
       return res.status(422).json(response)
     }
     try {
+      // Created room
       const room = await Room.create(req.body)
+
+      // Send response
       response.addMessage(MESSAGES.ROOMREGISTERED)
       response.setPayload(room)
       res.json(response)
+      // Socket call
     } catch (err) {
       response.setStatus(false)
       response.addError(err.errors[0].message)

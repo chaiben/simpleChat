@@ -6,7 +6,8 @@ module.exports = (sequelize, type) => {
       autoIncrement: true
     },
     roomName: {
-      type: type.STRING
+      type: type.STRING,
+      unique: true
     }
   })
 }

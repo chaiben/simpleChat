@@ -6,6 +6,7 @@ import { colors } from '../../styles'
 import { Card } from '../UI/atoms/'
 import { RoomCard } from '../UI/molecules/'
 import { CreateRoomForm } from '../UI/organisms/'
+import sortObject from '../../helpers/sortObject'
 
 export const Main = (): React.ReactElement => {
   // Get token
@@ -15,7 +16,7 @@ export const Main = (): React.ReactElement => {
   const { socket, uid, users } = useContext(SocketContext).SocketState
 
   // Rooms
-  const [rooms, setRooms] = useState<Room[] | null>(null)
+  const [rooms, setRooms] = useState<Room[]>([])
 
   // Loading Rooms
   useEffect(() => {
@@ -28,11 +29,11 @@ export const Main = (): React.ReactElement => {
 
   return (
     <>
-      <CreateRoomForm />
+      <CreateRoomForm setRooms={setRooms} />
       {rooms === null && <div>Loading...</div>}
       {rooms?.length == null && <div>Create a room to continue.</div>}
       {rooms?.length != null &&
-        rooms.map((room) => (
+        sortObject(rooms, 'roomName').map((room) => (
           <RoomCard key={`room_${room.roomName}`} {...room}></RoomCard>
         ))}
       <Card color={colors.error}>

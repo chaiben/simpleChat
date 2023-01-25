@@ -1,4 +1,4 @@
-export const rgb2hex = (rgb: string): string => {
+const rgb2hex = (rgb: string): string => {
   const values = rgb.match(/\d+/g)
   if (values !== null)
     return (
@@ -12,3 +12,5 @@ export const rgb2hex = (rgb: string): string => {
     )
   else return ''
 }
+
+export default rgb2hex

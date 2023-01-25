@@ -1,12 +1,17 @@
-import { Form, Formik } from 'formik'
 import React from 'react'
-import { Button, Center, Error, FlexBox } from '../atoms'
+import { Form, Formik } from 'formik'
+import { Button, Error, FlexBox } from '../atoms'
 import { FieldWithError } from '../molecules'
 import { createRoomSchema } from '../../../schemas'
 import { onSubmitCreateRoom } from '../../../handlers'
-import { CreateRoomFormInterface } from '../../../interfaces/roomInterface'
+import {
+  CreateRoomFormInterface,
+  CreateRoomFormProps
+} from '../../../interfaces/roomInterface'
 
-export const CreateRoomForm = (): React.ReactElement => {
+export const CreateRoomForm = ({
+  setRooms
+}: CreateRoomFormProps): React.ReactElement => {
   const initialValues: CreateRoomFormInterface = {
     roomName: ''
   }
@@ -16,7 +21,9 @@ export const CreateRoomForm = (): React.ReactElement => {
         initialValues={initialValues}
         validationSchema={createRoomSchema}
         validateOnBlur={false}
-        onSubmit={(room, actions) => onSubmitCreateRoom({ room, actions })}
+        onSubmit={async (room, actions) =>
+          await onSubmitCreateRoom({ room, actions, setRooms })
+        }
       >
         {({ errors, touched, isSubmitting }) => (
           <Form>
@@ -34,9 +41,7 @@ export const CreateRoomForm = (): React.ReactElement => {
                 </Button>
               </FlexBox>
               {errors.formError !== null ? (
-                <Center>
-                  <Error>{errors.formError}</Error>
-                </Center>
+                <Error margin="0 0 1rem 0">{errors.formError}</Error>
               ) : null}
             </FlexBox>
           </Form>
