@@ -1,4 +1,4 @@
-import { rgb2hex } from './rgb2hex'
+import rgb2hex from './rgb2hex'
 
 test('Convert rgb(41, 47, 54) to #292f36', () => {
   expect(rgb2hex('rgb(41, 47, 54)')).toBe('#292f36')
