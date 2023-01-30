@@ -1,4 +1,6 @@
 const { Server } = require('socket.io')
+const { disconnect } = require('./Listeners/disconnect')
+const { handshake } = require('./Listeners/handshake')
 
 module.exports = class ServerSocket {
   constructor(server) {
@@ -24,52 +26,11 @@ module.exports = class ServerSocket {
     console.info('Message recieved from ' + socket.id)
 
     socket.on('handshake', (loggedUser, callback) => {
-      console.info('Handshake recieved from ' + socket.id)
-
-      // Check if this is a reconnection
-      const reconnected = Object.values(this.users).includes(socket.id)
-
-      if (reconnected) {
-        console.info('This user has reconnected')
-        const uid = this.GetUidFromSocketId(socket.id)
-        const users = Object.values(this.users)
-
-        if (uid) {
-          console.info('Sending callback for reconnect ...')
-          callback(uid, users)
-          return
-        }
-      }
-
-      // Register logged user
-      const uid = JSON.stringify({
-        userId: loggedUser.userId,
-        userName: loggedUser.userName,
-        displayName: loggedUser.displayName
-      })
-      this.users[uid] = socket.id
-      const users = Object.values(this.users)
-      console.info('Sending callback for handshake ...')
-      callback(uid, users)
-
-      // Send new user to all connected users
-      this.SendMessage(
-        'user_connected',
-        users.filter((id) => id !== socket.id),
-        users
-      )
+      handshake(this, socket, loggedUser, callback)
     })
 
     socket.on('disconnect', () => {
-      console.info('Disconnected recieved from ' + socket.id)
-
-      const uid = this.GetUidFromSocketId(socket.id)
-
-      if (uid) {
-        delete this.users[uid]
-        const users = Object.values(this.users)
-        this.SendMessage('user_disconnected', users, socket.id)
-      }
+      disconnect(this, socket)
     })
   }
 
