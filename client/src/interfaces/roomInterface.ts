@@ -1,4 +1,6 @@
 import { FormikHelpers } from 'formik'
+import React from 'react'
+import { Socket } from 'socket.io-client'
 
 export interface Room {
   roomId?: number
@@ -19,4 +21,5 @@ export interface onSubmitCreateRoomHandlerInterface
   extends CreateRoomFormProps {
   room: Room
   actions: FormikHelpers<CreateRoomFormInterface>
+  socket: Socket | undefined
 }

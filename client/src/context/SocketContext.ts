@@ -18,6 +18,7 @@ export type TSocketContextActions =
   | 'update_uid'
   | 'update_users'
   | 'remove_user'
+
 export type TSocketContextPayload = string | string[] | Socket
 
 export interface ISocketContextActions {
@@ -43,7 +44,6 @@ export const SocketReducer = (
     case 'update_users':
       return { ...state, users: action.payload as string[] }
     case 'remove_user':
-      console.log('state', state)
       return {
         ...state,
         users: state.users.filter((socketId) => socketId !== action.payload)

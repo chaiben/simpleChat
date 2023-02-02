@@ -1,6 +1,5 @@
 const { Server } = require('socket.io')
-const { disconnect } = require('./Listeners/disconnect')
-const { handshake } = require('./Listeners/handshake')
+const { disconnect, handshake } = require('./listeners/')
 
 module.exports = class ServerSocket {
   constructor(server) {
@@ -32,6 +31,11 @@ module.exports = class ServerSocket {
     socket.on('disconnect', () => {
       disconnect(this, socket)
     })
+
+    socket.on('create_room', (room) => {
+      console.log('create_room', room)
+      this.io.emit('update_rooms')
+    })
   }
 
   GetUidFromSocketId = (id) =>
@@ -41,12 +45,12 @@ module.exports = class ServerSocket {
    * Send a message though the socket
    * @param {*} name The ename of the event, ex: handshake
    * @param {*} users List of socket id's
-   * @param {*} payload any information needed by the user for state updates
+   * @param {*} payload any information needed
    */
-  SendMessage = (name, users, payload) => {
-    console.info(`Emmitting event: ${name} to `, users)
+  SendMessage = (event, users, payload) => {
+    console.info(`Emmitting event: ${event} to `, users)
     users.forEach((id) => {
-      payload ? this.io.to(id).emit(name, payload) : this.io.to(id).emit(name)
+      payload ? this.io.to(id).emit(event, payload) : this.io.to(id).emit(event)
     })
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Form, Formik } from 'formik'
 import { Button, Error, FlexBox } from '../atoms'
 import { FieldWithError } from '../molecules'
@@ -8,6 +8,7 @@ import {
   CreateRoomFormInterface,
   CreateRoomFormProps
 } from '../../../interfaces/roomInterface'
+import SocketContext from '../../../context/SocketContext'
 
 export const CreateRoomForm = ({
   setRooms
@@ -15,6 +16,9 @@ export const CreateRoomForm = ({
   const initialValues: CreateRoomFormInterface = {
     roomName: ''
   }
+
+  const { socket } = useContext(SocketContext).SocketState
+
   return (
     <div>
       <Formik
@@ -22,7 +26,7 @@ export const CreateRoomForm = ({
         validationSchema={createRoomSchema}
         validateOnBlur={false}
         onSubmit={async (room, actions) =>
-          await onSubmitCreateRoom({ room, actions, setRooms })
+          await onSubmitCreateRoom({ room, actions, setRooms, socket })
         }
       >
         {({ errors, touched, isSubmitting }) => (
