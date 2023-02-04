@@ -5,12 +5,14 @@ export interface ISocketContextState {
   socket: Socket | undefined
   uid: string
   users: string[]
+  rooms: string[]
 }
 
 export const defaultSocketContextState: ISocketContextState = {
   socket: undefined,
   uid: '',
-  users: []
+  users: [],
+  rooms: []
 }
 
 export type TSocketContextActions =
@@ -31,11 +33,6 @@ export const SocketReducer = (
   state: ISocketContextState,
   action: ISocketContextActions
 ) => {
-  console.log(
-    `Message recieved - Action: ${action.type} - Payload: `,
-    action.payload
-  )
-
   switch (action.type) {
     case 'update_socket':
       return { ...state, socket: action.payload as Socket }

@@ -27,6 +27,12 @@ export const Main = (): React.ReactElement => {
     void fetchData()
   }, [token])
 
+  useEffect(() => {
+    socket?.on('update_rooms', (updatedRooms) => {
+      setRooms(updatedRooms)
+    })
+  }, [socket])
+
   return (
     <>
       <CreateRoomForm setRooms={setRooms} />

@@ -64,10 +64,6 @@ const SocketContextComponent: React.FunctionComponent<
         'We are unable to connect you to the chat service.  Please make sure your internet connection is stable or try again later.'
       )
     })
-
-    socket.on('update_rooms', (rooms) => {
-      console.info('update_rooms', rooms)
-    })
   }
 
   const SendHandshake = async (): Promise<void> => {
