@@ -3,6 +3,7 @@ require('dotenv').config()
 const UserModel = require('./models/users')
 const RoomModel = require('./models/rooms')
 const UserRoomModel = require('./models/users_rooms')
+const MessageModel = require('./models/messages')
 
 const sequelize = new Sequelize(
   process.env.DATABASE_NAME,
@@ -17,6 +18,7 @@ const sequelize = new Sequelize(
 const User = UserModel(sequelize, Sequelize)
 const Room = RoomModel(sequelize, Sequelize)
 const UserRoom = UserRoomModel(sequelize, User, Room)
+const Message = MessageModel(sequelize, Sequelize, User, Room)
 
 sequelize.sync({ force: false }).then(() => {
   console.log('Table sincronized')
@@ -27,5 +29,6 @@ module.exports = {
   Sequelize,
   User,
   UserRoom,
+  Message,
   sequelize
 }

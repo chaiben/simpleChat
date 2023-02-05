@@ -1,5 +1,11 @@
 const { Server } = require('socket.io')
-const { disconnect, handshake, createRoom, enterRoom } = require('./listeners/')
+const {
+  disconnect,
+  handshake,
+  createRoom,
+  enterRoom,
+  newMessage
+} = require('./listeners/')
 
 module.exports = class ServerSocket {
   constructor(server) {
@@ -38,6 +44,10 @@ module.exports = class ServerSocket {
 
     socket.on('enter_room', (userId, roomName) => {
       enterRoom(this, userId, roomName)
+    })
+
+    socket.on('new_message', (data) => {
+      newMessage(this, data)
     })
   }
 
