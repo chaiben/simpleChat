@@ -1,9 +1,17 @@
 import React, { useContext, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Card } from '../UI/atoms/'
 import { colors } from '../../styles'
 import SocketContext from '../../context/SocketContext'
 import { User } from '../../interfaces/userInterface'
+import { BackButton } from '../UI/atoms/BackButton'
+import styled from 'styled-components'
+
+const StyledCard = styled(Card)`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+`
 
 export const Room = (): React.ReactElement => {
   const { room } = useParams()
@@ -20,7 +28,12 @@ export const Room = (): React.ReactElement => {
 
   return (
     <>
-      <div>{room}</div>
+      <StyledCard>
+        <Link to="/main">
+          <BackButton />
+        </Link>
+        {room}
+      </StyledCard>
       <Card color={colors.error}>
         <h2>Socket io information</h2>
         <p>
