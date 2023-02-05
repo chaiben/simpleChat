@@ -1,7 +1,7 @@
 const { Room } = require('../../db')
-const createRoom = async (serverSocket, room) => {
+const createRoom = async (serverSocket, roomName) => {
   try {
-    await Room.create(room)
+    await Room.create(roomName)
     const rooms = await Room.findAll()
     serverSocket.io.emit('update_rooms', rooms)
   } catch (err) {

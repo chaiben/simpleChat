@@ -7,14 +7,15 @@ import { Card } from '../UI/atoms/'
 import { RoomCard } from '../UI/molecules/'
 import { CreateRoomForm } from '../UI/organisms/'
 import sortObject from '../../helpers/sortObject'
+import { User } from '../../interfaces/userInterface'
 
 export const Main = (): React.ReactElement => {
   // Get token
   const token = localStorage.getItem('token')
 
-  // Socket info
+  // Socket and user info
   const { socket, uid, users } = useContext(SocketContext).SocketState
-
+  const user = JSON.parse(uid) as User
   // Rooms
   const [rooms, setRooms] = useState<Room[]>([])
 
@@ -27,11 +28,18 @@ export const Main = (): React.ReactElement => {
     void fetchData()
   }, [token])
 
+  // Updated rooms list
   useEffect(() => {
     socket?.on('update_rooms', (updatedRooms) => {
       setRooms(updatedRooms)
     })
   }, [socket])
+
+  // Enter room
+  useEffect(() => {
+    socket?.emit('enter_room', user.userId, 0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>

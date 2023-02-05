@@ -1,11 +1,12 @@
 import { createContext } from 'react'
 import { Socket } from 'socket.io-client'
+import { Room } from '../interfaces/roomInterface'
 
 export interface ISocketContextState {
   socket: Socket | undefined
   uid: string
   users: string[]
-  rooms: string[]
+  rooms?: Room[]
 }
 
 export const defaultSocketContextState: ISocketContextState = {
@@ -20,6 +21,7 @@ export type TSocketContextActions =
   | 'update_uid'
   | 'update_users'
   | 'remove_user'
+  | 'change_room'
 
 export type TSocketContextPayload = string | string[] | Socket
 
@@ -45,6 +47,8 @@ export const SocketReducer = (
         ...state,
         users: state.users.filter((socketId) => socketId !== action.payload)
       }
+    case 'change_room':
+      return { ...state, rooms: action.payload as unknown as Room[] }
     default:
       return { ...state }
   }
