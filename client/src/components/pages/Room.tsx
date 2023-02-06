@@ -49,6 +49,13 @@ export const Room = (): React.ReactElement => {
     })
   }, [room, socket])
 
+  // Updated messages list
+  useEffect(() => {
+    socket?.on('update_user_room', (data) => {
+      console.log('update_user_room', data)
+    })
+  }, [room, socket])
+
   const divRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
