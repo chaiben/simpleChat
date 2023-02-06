@@ -45,7 +45,7 @@ export const Room = (): React.ReactElement => {
         setMessages(newMessages)
       }
     })
-  }, [socket])
+  }, [room, socket])
 
   return (
     <>
