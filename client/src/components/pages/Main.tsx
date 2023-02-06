@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import SocketContext from '../../context/SocketContext'
 import { RoomService } from '../../services'
 import { Room } from '../../interfaces/roomInterface'
-import { colors } from '../../styles'
-import { Card } from '../UI/atoms/'
 import { RoomCard } from '../UI/molecules/'
 import { CreateRoomForm } from '../UI/organisms/'
 import sortObject from '../../helpers/sortObject'
@@ -14,7 +12,7 @@ export const Main = (): React.ReactElement => {
   const token = localStorage.getItem('token')
 
   // Socket and user info
-  const { socket, uid, users } = useContext(SocketContext).SocketState
+  const { socket, uid } = useContext(SocketContext).SocketState
   const user = JSON.parse(uid) as User
   // Rooms
   const [rooms, setRooms] = useState<Room[]>([])
@@ -50,16 +48,6 @@ export const Main = (): React.ReactElement => {
         sortObject(rooms, 'roomName').map((room) => (
           <RoomCard key={`room_${room.roomName}`} {...room}></RoomCard>
         ))}
-      <Card color={colors.error}>
-        <h2>Socket io information</h2>
-        <p>
-          Your user ID: <strong>{uid}</strong>
-          <br />
-          Users online: <strong>{users.length}</strong>
-          <br />
-          Socket ID: <strong>{socket?.id}</strong>
-        </p>
-      </Card>
     </>
   )
 }

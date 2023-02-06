@@ -5,8 +5,8 @@ import { Socket } from 'socket.io-client'
 export interface Room {
   roomId?: number
   roomName: string
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface CreateRoomFormInterface extends Room {

@@ -21,7 +21,8 @@ const newMessage = async (serverSocket, data) => {
           model: User,
           as: 'user'
         }
-      ]
+      ],
+      order: [['createdAt', 'ASC']]
     })
 
     serverSocket.io.emit('update_messages', room.roomName, messages)

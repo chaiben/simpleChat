@@ -7,8 +7,8 @@ export interface Message {
   roomName?: string
   userId?: number
   message: string
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: string
+  updatedAt?: string
   user?: User
 }
 
