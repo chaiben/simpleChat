@@ -9,7 +9,6 @@ export const useSocket = (
 
   useEffect(() => {
     return () => {
-      console.log('closed')
       socket.close()
     }
   }, [socket])

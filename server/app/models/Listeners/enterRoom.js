@@ -1,7 +1,6 @@
 const { User, Room, UserRoom } = require('../../db')
 const { newMessage } = require('./newMessage')
 const enterRoom = async (serverSocket, userId, roomName) => {
-  console.log('enterRoom info:', userId, roomName)
   try {
     // Recupera el usuario y el room
     const user = await User.findByPk(userId)

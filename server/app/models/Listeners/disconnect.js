@@ -1,8 +1,6 @@
 const { enterRoom } = require('./enterRoom')
 
 const disconnect = async (serverSocket, socket) => {
-  console.info('Disconnected recieved from ' + socket.id)
-
   const uid = serverSocket.GetUidFromSocketId(socket.id)
 
   if (uid) {
