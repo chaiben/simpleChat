@@ -4,13 +4,12 @@ const newMessage = async (serverSocket, data) => {
   try {
     const { userId, roomName, message } = data
     // Recupera el usuario y el room
-    const user = await User.findByPk(userId)
     const room = roomName ? await Room.findOne({ where: { roomName } }) : 0
 
     // Guarda el mensage
     await Message.create({
       message,
-      userId: user.userId,
+      userId,
       roomId: room.roomId
     })
 

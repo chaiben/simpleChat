@@ -1,4 +1,5 @@
 const { User, Room, UserRoom } = require('../../db')
+const { newMessage } = require('./newMessage')
 const enterRoom = async (serverSocket, userId, roomName) => {
   console.log('enterRoom info:', userId, roomName)
   try {
@@ -23,6 +24,16 @@ const enterRoom = async (serverSocket, userId, roomName) => {
         }
       ]
     })
+
+    if (roomName) {
+      const data = {
+        userId: null,
+        roomName,
+        message: `Joined ${user.displayName}`
+      }
+
+      newMessage(serverSocket, data)
+    }
 
     serverSocket.io.emit('update_user_room', { user, room, rooms })
   } catch (err) {

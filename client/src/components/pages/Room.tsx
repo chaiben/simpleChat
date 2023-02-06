@@ -27,7 +27,6 @@ export const Room = (): React.ReactElement => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [messages, setMessages] = useState<Message[]>([])
 
-  console.log(messages)
   // Socket info
   const { socket, uid, users } = useContext(SocketContext).SocketState
   const user = JSON.parse(uid) as User
