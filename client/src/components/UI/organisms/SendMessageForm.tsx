@@ -50,9 +50,9 @@ export const SendMessageForm = ({
                   Send
                 </Button>
               </FlexBox>
-              {errors.formError !== null ? (
+              {errors.formError != null && (
                 <Error margin="0 0 1rem 0">{errors.formError}</Error>
-              ) : null}
+              )}
             </FlexBox>
           </Form>
         )}

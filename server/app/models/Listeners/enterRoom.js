@@ -18,17 +18,12 @@ const enterRoom = async (serverSocket, userId, roomName) => {
 
     // Escribe el nuevo room
     if (newRoom) {
-      user.addRoom(newRoom)
+      await user.addRoom(newRoom)
     }
 
     // Recupera la lista de rooms con los usuarios
-    const rooms = await User.findAll({
-      include: [
-        {
-          model: Room,
-          as: 'rooms'
-        }
-      ]
+    const rooms = await Room.findAll({
+      include: [{ model: User }]
     })
 
     if (roomName) {

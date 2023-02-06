@@ -8,6 +8,8 @@ import styled from 'styled-components'
 import { SendMessageForm } from '../UI/organisms/SendMessageForm'
 import { Message } from '../../interfaces/messageInterface'
 import { MessageRow } from '../UI/organisms/MessageRow'
+import { Room as RoomInterface } from '../../interfaces/roomInterface'
+import { ConnectedUsers } from '../UI/organisms'
 
 const StyledCard = styled(Card)`
   display: flex;
@@ -29,6 +31,8 @@ export const Room = (): React.ReactElement => {
   // Messages
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [messages, setMessages] = useState<Message[]>([])
+
+  const [rooms, setRooms] = useState<RoomInterface[]>([])
 
   // Socket info
   const { socket, uid } = useContext(SocketContext).SocketState
@@ -52,7 +56,8 @@ export const Room = (): React.ReactElement => {
   // Updated messages list
   useEffect(() => {
     socket?.on('update_user_room', (data) => {
-      console.log('update_user_room', data)
+      const { rooms } = data
+      setRooms(rooms)
     })
   }, [room, socket])
 
@@ -84,6 +89,9 @@ export const Room = (): React.ReactElement => {
           ))}
       </MessageBox>
       <SendMessageForm userId={user.userId} roomName={room} />
+      {room != null && rooms.length > 0 && (
+        <ConnectedUsers currentRoom={room} rooms={rooms} />
+      )}
     </>
   )
 }

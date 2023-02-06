@@ -1,4 +1,4 @@
-const { UserRoom } = require('../../db')
+const { enterRoom } = require('./enterRoom')
 
 const disconnect = async (serverSocket, socket) => {
   console.info('Disconnected recieved from ' + socket.id)
@@ -7,8 +7,7 @@ const disconnect = async (serverSocket, socket) => {
 
   if (uid) {
     const user = JSON.parse(uid)
-    // Borra los registros de los rooms
-    await UserRoom.destroy({ where: { userId: user.userId } })
+    enterRoom(serverSocket, user.userId, 0)
 
     // Borra el usuario de la lista de users
     delete serverSocket.users[uid]
