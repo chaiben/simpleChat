@@ -4,6 +4,7 @@ import React, {
   useReducer,
   useState
 } from 'react'
+import { SOCKET_URL } from '../conf/conf'
 import { useSocket } from '../hooks/useSocket'
 import { User } from '../interfaces/userInterface'
 import {
@@ -19,7 +20,7 @@ export interface ISocketContextComponentProps extends PropsWithChildren {
 const SocketContextComponent: React.FunctionComponent<
   ISocketContextComponentProps
 > = ({ children, loggedUser }) => {
-  const socket = useSocket('ws://localhost:3000', {
+  const socket = useSocket(SOCKET_URL, {
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
     autoConnect: false

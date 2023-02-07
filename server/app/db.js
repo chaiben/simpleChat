@@ -11,7 +11,8 @@ const sequelize = new Sequelize(
   process.env.DATABASE_PASSWORD,
   {
     host: process.env.DATABASE_HOST,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    logging: process.env.NODE_ENV === 'dev'
   }
 )
 
@@ -20,9 +21,14 @@ const Room = RoomModel(sequelize, Sequelize)
 const UserRoom = UserRoomModel(sequelize, User, Room)
 const Message = MessageModel(sequelize, Sequelize, User, Room)
 
-sequelize.sync({ force: false }).then(() => {
-  console.log('Table sincronized')
-})
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log('Table sincronized')
+  })
+  .catch((error) => {
+    console.error('Error al crear la base de datos:', error)
+  })
 
 module.exports = {
   Room,

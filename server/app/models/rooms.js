@@ -7,7 +7,9 @@ module.exports = (sequelize, type) => {
     },
     roomName: {
       type: type.STRING,
-      unique: true
+      unique: true,
+      allowNull: false,
+      collate: 'utf8_bin'
     }
   })
 }

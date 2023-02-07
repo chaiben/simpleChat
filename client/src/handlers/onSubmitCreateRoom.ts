@@ -8,4 +8,5 @@ export const onSubmitCreateRoom = async ({
 }: onSubmitCreateRoomHandlerInterface): Promise<void> => {
   actions.setSubmitting(false)
   socket?.emit('create_room', room)
+  actions.resetForm()
 }

@@ -1,4 +1,5 @@
 const express = require('express')
+require('dotenv').config()
 const bodyParser = require('body-parser')
 const apiRouter = require('./routes/route')
 const cors = require('cors')
@@ -24,4 +25,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/', apiRouter)
 
-httpServer.listen(3000, () => console.log('Server is running'))
+httpServer.listen(process.env.SERVER_PORT, () =>
+  console.log('Server is running')
+)

@@ -1,4 +1,5 @@
 const { Server } = require('socket.io')
+const log = require('../helpers/log')
 const {
   disconnect,
   handshake,
@@ -24,11 +25,11 @@ module.exports = class ServerSocket {
 
     this.io.on('connect', this.StartListeners)
 
-    console.info('Soket IO started')
+    console.log('Soket IO started')
   }
 
   StartListeners = (socket) => {
-    console.info('Message recieved from ' + socket.id)
+    log('Message recieved from ' + socket.id)
 
     socket.on('handshake', (loggedUser, callback) => {
       handshake(this, socket, loggedUser, callback)
@@ -61,7 +62,7 @@ module.exports = class ServerSocket {
    * @param {*} payload any information needed
    */
   SendMessage = (event, users, payload) => {
-    console.info(`Emmitting event: ${event} to `, users)
+    log(`Emmitting event: ${event} to `, users)
     users.forEach((id) => {
       payload ? this.io.to(id).emit(event, payload) : this.io.to(id).emit(event)
     })

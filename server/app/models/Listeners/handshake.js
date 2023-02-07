@@ -1,16 +1,18 @@
+const log = require('../../helpers/log')
+
 const handshake = (serverSocket, socket, loggedUser, callback) => {
-  console.info('Handshake recieved from ' + socket.id)
+  log('Handshake recieved from ' + socket.id)
 
   // Check if this is a reconnection
   const reconnected = Object.values(serverSocket.users).includes(socket.id)
 
   if (reconnected) {
-    console.info('This user has reconnected')
+    log('This user has reconnected')
     const uid = serverSocket.GetUidFromSocketId(socket.id)
     const users = Object.values(serverSocket.users)
 
     if (uid) {
-      console.info('Sending callback for reconnect ...')
+      log('Sending callback for reconnect ...')
       callback(uid, users)
       return
     }
@@ -24,7 +26,7 @@ const handshake = (serverSocket, socket, loggedUser, callback) => {
   })
   serverSocket.users[uid] = socket.id
   const users = Object.values(serverSocket.users)
-  console.info('Sending callback for handshake ...')
+  log('Sending callback for handshake ...')
   callback(uid, users)
 
   // Send new user to all connected users
