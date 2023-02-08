@@ -118,7 +118,9 @@ Crea una nueva sala de chat
 
 ## Capturas de pantalla
 
+<div style='display:flex;'>
 <img alt="Login" src="./screenshots/login.jpg" width="200">
 <img alt="Create user" src="./screenshots/create_user.jpg" width="200">
 <img alt="Rooms list" src="./screenshots/rooms.jpg" width="200">
 <img alt="Chat room" src="./screenshots/room.jpg" width="200">
+</div>
