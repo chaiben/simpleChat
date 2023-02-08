@@ -2,13 +2,13 @@ import React, { useContext } from 'react'
 import { Form, Formik } from 'formik'
 import { Button, Error, FlexBox } from '../atoms'
 import { FieldWithError } from '../molecules'
-import { createRoomSchema } from '../../../schemas'
 import { onSubmitSendMessage } from '../../../handlers'
 import {
   SendMessageFormInterface,
   SendMessageFormProps
 } from '../../../interfaces/messageInterface'
 import SocketContext from '../../../context/SocketContext'
+import { createMessageSchema } from '../../../schemas/createMessageSchema'
 
 export const SendMessageForm = ({
   roomName,
@@ -24,9 +24,10 @@ export const SendMessageForm = ({
     <div>
       <Formik
         initialValues={initialValues}
-        validationSchema={createRoomSchema}
+        validationSchema={createMessageSchema}
         validateOnBlur={false}
         onSubmit={async (values, actions) => {
+          console.log('here')
           const message = {
             message: values.message,
             userId,
