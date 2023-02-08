@@ -24,9 +24,11 @@ Un chat simples desarollado utilizando:
    CREATE DATABASE simpleChat CHARACTER SET = utf8 COLLATE = utf8_bin;
    ```
 
-4. Configurar el archivo de entorno.
+4. Configurar el archivo de entorno del servidor.
+
    1. Copiar el archivo `.env-template` a `.env`
    2. Modificar el archivo `.env` con la configuración de la base de datos
+
 5. Ejecutar el servidor Node
 
    ```
@@ -35,7 +37,18 @@ Un chat simples desarollado utilizando:
    npm run start
    ```
 
-6. Ejecutar el servidor de FrontEnd
+6. Configurar las variables de entorno del cliente.
+
+Editar el archivo `client/public/env.js`
+
+```
+window.env = {
+  API_URL: "http://localhost:3001/",
+  SOCKET_URL: "ws://localhost:3001",
+};
+```
+
+7. Ejecutar el servidor de FrontEnd
 
    ```
    cd client
