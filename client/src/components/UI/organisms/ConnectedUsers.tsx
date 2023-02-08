@@ -28,7 +28,6 @@ export const ConnectedUsers = ({
   rooms
 }: ConnectedUsersProps): React.ReactElement => {
   const room = rooms.filter((r) => r.roomName === currentRoom)[0]
-  console.log('connected users', rooms)
   return (
     <ConnectedUsersStyled>
       <div className="usersListHeader">Online users:</div>

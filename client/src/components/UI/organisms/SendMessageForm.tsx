@@ -27,7 +27,6 @@ export const SendMessageForm = ({
         validationSchema={createMessageSchema}
         validateOnBlur={false}
         onSubmit={async (values, actions) => {
-          console.log('here')
           const message = {
             message: values.message,
             userId,

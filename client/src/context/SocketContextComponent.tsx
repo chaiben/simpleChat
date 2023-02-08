@@ -35,24 +35,24 @@ const SocketContextComponent: React.FunctionComponent<
   const StartListeners = (): void => {
     /** User connected event */
     socket.on('user_connected', (users: string[]) => {
-      console.info('User connected message received')
+      // console.info('User connected message received')
       SocketDispatch({ type: 'update_users', payload: users })
     })
 
     /** User Disconnected event */
     socket.on('user_disconnected', (uid: string) => {
-      console.info('User disconnected message received')
+      // console.info('User disconnected message received')
       SocketDispatch({ type: 'remove_user', payload: uid })
     })
 
     /** Connection / reconnection listeners */
     socket.io.on('reconnect', (attempt) => {
-      console.info(`Reconnected on attempt: ${attempt}`)
+      // console.info(`Reconnected on attempt: ${attempt}`)
       void SendHandshake()
     })
 
     socket.io.on('reconnect_attempt', (attempt) => {
-      console.info(`Reconnection Attempt: ${attempt}`)
+      // console.info(`Reconnection Attempt: ${attempt}`)
     })
 
     socket.io.on('reconnect_error', (error) => {
@@ -68,13 +68,13 @@ const SocketContextComponent: React.FunctionComponent<
   }
 
   const SendHandshake = async (): Promise<void> => {
-    console.info('Sending handshake to server ...')
+    // console.info('Sending handshake to server ...')
 
     socket.emit(
       'handshake',
       loggedUser,
       async (uid: string, users: string[]) => {
-        console.info('User handshake callback message received')
+        // console.info('User handshake callback message received')
         SocketDispatch({ type: 'update_uid', payload: uid })
         SocketDispatch({ type: 'update_users', payload: users })
 
