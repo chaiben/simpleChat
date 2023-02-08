@@ -18,10 +18,16 @@ Un chat simples desarollado utilizando:
    docker compose up
    ```
 
-3. Configurar el archivo de entorno.
+3. Crear manualmente la base de datos - simpleChat es el nombre de la base de datos que se quiere crear. (Necesario solamente la primera vez)
+
+   ```
+   CREATE DATABASE simpleChat CHARACTER SET = utf8 COLLATE = utf8_bin;
+   ```
+
+4. Configurar el archivo de entorno.
    1. Copiar el archivo `.env-template` a `.env`
    2. Modificar el archivo `.env` con la configuración de la base de datos
-4. Ejecutar el servidor Node
+5. Ejecutar el servidor Node
 
    ```
    cd server
@@ -29,7 +35,7 @@ Un chat simples desarollado utilizando:
    npm run start
    ```
 
-5. Ejecutar el servidor de FrontEnd
+6. Ejecutar el servidor de FrontEnd
 
    ```
    cd client
