@@ -1,28 +1,19 @@
 // routes/api/users.js
 const router = require('express').Router()
-const { check } = require('express-validator')
 
 const {
   registerController,
   loginController,
   tokenInfoController,
-  unsubscribeController
+  unsubscribeController,
+  registerValidation
 } = require('../../controllers/users')
-const MESSAGES = require('../../helpers/helper')
 
 require('dotenv').config()
 
-router.post(
-  '/register',
-  [
-    check('userName', MESSAGES.USERREQUIRED).not().isEmpty(),
-    check('displayName', MESSAGES.DISPLAYNAMEREQUIRED).not().isEmpty(),
-    check('password', MESSAGES.PASSWORDREQUIRED).not().isEmpty()
-  ],
-  async (req, res) => {
-    await registerController(req, res)
-  }
-)
+router.post('/register', registerValidation, async (req, res) => {
+  await registerController(req, res)
+})
 
 router.post('/login', async (req, res) => {
   await loginController(req, res)
