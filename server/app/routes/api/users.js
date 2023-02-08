@@ -1,12 +1,15 @@
 // routes/api/users.js
 const router = require('express').Router()
-const bcrypt = require('bcryptjs')
-const { User } = require('../../db')
-const { check, validationResult } = require('express-validator')
-const moment = require('moment')
-const jwt = require('jwt-simple')
+const { check } = require('express-validator')
+
+const {
+  registerController,
+  loginController,
+  tokenInfoController,
+  unsubscribeController
+} = require('../../controllers/users')
 const MESSAGES = require('../../helpers/helper')
-const Response = require('../../models/Response')
+
 require('dotenv').config()
 
 router.post(
@@ -17,135 +20,19 @@ router.post(
     check('password', MESSAGES.PASSWORDREQUIRED).not().isEmpty()
   ],
   async (req, res) => {
-    const response = new Response()
-    const errors = validationResult(req)
-
-    if (!errors.isEmpty()) {
-      response.setStatus(false)
-      response.setError(errors.array())
-      return res.status(422).json(response)
-    }
-    try {
-      req.body.password = bcrypt.hashSync(req.body.password, 10)
-      const user = await User.create(req.body)
-      response.addMessage(MESSAGES.USERREGISTERED)
-      response.setPayload(user)
-      res.json(response)
-    } catch (err) {
-      response.setStatus(false)
-      let errorMsg = err.errors[0].message
-      if (errorMsg === 'userName must be unique') {
-        errorMsg = MESSAGES.USERNAMECONFLICT
-      }
-      response.addError(errorMsg)
-      return res.status(409).json(response)
-    }
+    await registerController(req, res)
   }
 )
 
 router.post('/login', async (req, res) => {
-  const response = new Response()
-  try {
-    // Missing post information
-    if (!req.body.userName || !req.body.password) {
-      response.setStatus(false)
-      response.addError(MESSAGES.MISSINGUSERNAMEORPASS)
-      return res.status(422).json(response)
-    }
-    const user = await User.findOne({ where: { userName: req.body.userName } })
-    if (user) {
-      // User found
-      const valid = bcrypt.compareSync(req.body.password, user.password)
-      if (valid) {
-        // Valid password for this user
-        response.setPayload({
-          token: createToken(user),
-          user
-        })
-        res.json(response)
-      } else {
-        // Wrong password for this user
-        response.setStatus(false)
-        response.addError(MESSAGES.WRONGUSERORPASS)
-        res.json(response)
-      }
-    } else {
-      // User not found
-      response.setStatus(false)
-      response.addError(MESSAGES.WRONGUSERORPASS)
-      res.json(response)
-    }
-  } catch (err) {
-    // Other errors
-    response.setStatus(false)
-    response.setError(err)
-    res.status(422).json(response)
-  }
+  await loginController(req, res)
 })
-
-const createToken = (user) => {
-  const payload = {
-    userId: user.userId,
-    userName: user.userName,
-    displayName: user.displayName,
-    createdAt: moment().unix(),
-    expiredAt: moment().add(24, 'hours').unix()
-  }
-  return jwt.encode(payload, process.env.JWT_SECRET_KEY)
-}
 
 router.post('/tokeninfo', async (req, res) => {
-  const response = new Response()
-  if (!req.body.token) {
-    response.setStatus(false)
-    response.addError(MESSAGES.MISSINGTOKEN)
-    return res.status(422).json(response)
-  } else {
-    try {
-      const payload = jwt.decode(req.body.token, process.env.JWT_SECRET_KEY)
-      response.setPayload(payload)
-      res.json(response)
-    } catch (err) {
-      response.setStatus(false)
-      response.addError(MESSAGES.INVAIDTOKEN)
-      return res.status(401).json(response)
-    }
-  }
+  await tokenInfoController(req, res)
 })
 router.post('/unsubscribe', async (req, res) => {
-  const response = new Response()
-  try {
-    if (!req.body.userName || !req.body.password) {
-      response.setStatus(false)
-      response.addError(MESSAGES.MISSINGUSERNAMEORPASS)
-      return res.status(422).json(response)
-    }
-    const user = await User.findOne({ where: { userName: req.body.userName } })
-    if (user) {
-      const valid = bcrypt.compareSync(req.body.password, user.password)
-      if (valid) {
-        const countResponse = User.destroy({
-          where: {
-            userId: user.userId
-          }
-        })
-        response.setPayload({ deleted: !!countResponse })
-        res.json(response)
-      } else {
-        response.setStatus(false)
-        response.addError(MESSAGES.WRONGUSERORPASS)
-        res.status(401).json(response)
-      }
-    } else {
-      response.setStatus(false)
-      response.addError(MESSAGES.WRONGUSERORPASS)
-      res.status(401).json(response)
-    }
-  } catch (err) {
-    response.setStatus(false)
-    response.setError(err)
-    res.status(422).json(response)
-  }
+  await unsubscribeController(req, res)
 })
 
 module.exports = router
