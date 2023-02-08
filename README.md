@@ -39,14 +39,14 @@ Un chat simples desarollado utilizando:
 
 6. Configurar las variables de entorno del cliente.
 
-Editar el archivo `client/public/env.js`
+   Editar el archivo `client/public/env.js`
 
-```
-window.env = {
-  API_URL: "http://localhost:3001/",
-  SOCKET_URL: "ws://localhost:3001",
-};
-```
+   ```
+   window.env = {
+   API_URL: "http://localhost:3001/",
+   SOCKET_URL: "ws://localhost:3001",
+   };
+   ```
 
 7. Ejecutar el servidor de FrontEnd
 
