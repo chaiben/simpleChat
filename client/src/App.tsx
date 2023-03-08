@@ -1,7 +1,14 @@
-import React from 'react';
+import React from 'react'
+import { AppRoutes } from './router/AppRoutes'
+import { GlobalStyle } from './styles'
 
 const App: React.FC = () => {
-  return <div>Hola mundo</div>;
-};
+  return (
+    <>
+      <GlobalStyle />
+      <AppRoutes />
+    </>
+  )
+}
 
-export default App;
+export default App

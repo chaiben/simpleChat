@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "a86abff4-d779-4395-ab6c-2a83714fcc11",
+		"name": "simpleChat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verifica si el formato de la respuesta es correcto\", function () {",
+							"    var res = pm.response;",
+							"    pm.expect(res.json()).to.have.property('status', true);",
+							"    pm.expect(res.json()).to.have.property('message').that.is.an('array');",
+							"    pm.expect(res.json()).to.have.property('payload').that.is.an('object');",
+							"    pm.expect(res.json()).to.have.property('error').that.is.an('array');",
+							"});",
+							"pm.test(\"Check if status is equal to true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Check if userName is set correctly\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.payload.userName).to.eql(\"testuser\");",
+							"    pm.expect(jsonData.payload.displayName).to.eql(\"Test\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userName",
+							"value": "testuser",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "default"
+						},
+						{
+							"key": "displayName",
+							"value": "Test",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/users/register/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if(jsonData.payload?.success) {",
+							"    pm.collectionVariables.set(\"token\", jsonData.payload.success);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userName",
+							"value": "test",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "12345a",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/users/login/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if(jsonData.payload?.success) {",
+							"    pm.collectionVariables.set(\"token\", jsonData.payload.success);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "chaiben",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/users/tokeninfo/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"tokeninfo",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsubscribe user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verifica si el formato de la respuesta es correcto\", function () {",
+							"    var res = pm.response;",
+							"    pm.expect(res.json()).to.have.property('status', true);",
+							"    pm.expect(res.json()).to.have.property('message').that.is.an('array');",
+							"    pm.expect(res.json()).to.have.property('payload').that.is.an('object');",
+							"    pm.expect(res.json()).to.have.property('error').that.is.an('array');",
+							"});",
+							"pm.test(\"Check if status is equal to true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(true);",
+							"});",
+							"pm.test(\"Check if payload deleted is true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.payload.deleted).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userName",
+							"value": "testuser",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/users/unsubscribe/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"unsubscribe",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'user-token', value: pm.collectionVariables.get(\"token\") });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}

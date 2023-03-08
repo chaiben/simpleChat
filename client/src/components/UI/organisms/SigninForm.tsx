@@ -1,0 +1,62 @@
+import { Form, Formik } from 'formik'
+import React from 'react'
+import { Button, Center, StyledLink, Error, FlexBox } from '../atoms'
+import { FieldWithError } from '../molecules'
+import { signinSchema } from '../../../schemas'
+import { RegisterForm, SignFormProps } from '../../../interfaces/userInterface'
+import { onSubmitSignin } from '../../../handlers'
+
+export const SigninForm = ({
+  setLoggedUser
+}: SignFormProps): React.ReactElement => {
+  const initialValues: RegisterForm = {
+    userName: '',
+    password: ''
+  }
+  return (
+    <div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={signinSchema}
+        onSubmit={async (user, actions) =>
+          await onSubmitSignin({ user, actions, setLoggedUser })
+        }
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <Form className="formLayout">
+            <FlexBox>
+              <FieldWithError
+                id="userName"
+                name="userName"
+                placeholder="Username"
+                error={errors.userName}
+                touched={touched.userName}
+              />
+              <FieldWithError
+                id="password"
+                name="password"
+                placeholder="Password"
+                type="password"
+                error={errors.password}
+                touched={touched.password}
+              />
+              {errors.formError !== null ? (
+                <Center>
+                  <Error>{errors.formError}</Error>
+                </Center>
+              ) : null}
+              <Center>
+                <Button type="submit" disabled={isSubmitting}>
+                  Sign in
+                </Button>
+              </Center>
+              <Center>
+                <StyledLink to="./signup">I do not have an account</StyledLink>
+              </Center>
+            </FlexBox>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  )
+}
